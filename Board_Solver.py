@@ -80,6 +80,40 @@ class BoardSolver:
             return False
         return True
 
+    def GetNextOpenSpace(self, x, y):
+
+        newX = x
+        newY = y
+
+        if newX == 8 and newY == 8:
+            return -1, -1
+
+        while 1:
+            if newY == 8:
+                newY = 0
+                newX += 1
+            else:
+                newY += 1
+
+            if self.board[newX][newY] == 0:
+                return newX, newY
+
+    def SolveGame(self, x, y):
+
+        if x == -1 and y == -1:
+            return True
+
+        for i in range(1, 10):
+            if self.TestColumn(y, i) and self.TestRow(x, i) and self.TestSquare(x, y, i):
+                self.board[x][y] = i
+                newX, newY = self.GetNextOpenSpace(x, y)
+                if self.SolveGame(newX, newY):
+                    return True
+
+                self.board[x][y] = 0
+
+        return False
+
 def main():
 
     newBoard = BoardSolver([[0, 0, 7, 3, 0, 0, 0, 0, 6], 
@@ -94,11 +128,13 @@ def main():
     
     print(newBoard)
 
-    print(newBoard.TestColumn(5, 3))
+    print('\n\n\n')
 
-    print(newBoard.TestRow(4, 3))
+    startX, startY = newBoard.GetNextOpenSpace(0, -1)
 
-    print(newBoard.TestSquare(8, 8, 1))
+    newBoard.SolveGame(startX, startY)
+
+    print(newBoard)
 
 
 if __name__ == "__main__":
