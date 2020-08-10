@@ -81,7 +81,10 @@ class BoardSolver:
         return True
 
     def GetNextOpenSpace(self, x, y):
-
+        """
+        Given a current location on the board, finds the next open spot
+        return a tuple of the open location
+        """
         newX = x
         newY = y
 
@@ -99,7 +102,11 @@ class BoardSolver:
                 return newX, newY
 
     def SolveGame(self, x, y):
-
+        """
+        Uses backtracking to solve the puzzle
+        starts at the first open spot on the board
+        returns true if the puzzle can be solved, false if not
+        """
         if x == -1 and y == -1:
             return True
 
